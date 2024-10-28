@@ -4,7 +4,7 @@ Performs simple pagination on a dataset
 """
 import csv
 import math
-from typing import List, Tuple
+from typing import List, Tuple, Dict, Any
 
 
 def index_range(page: int, page_size: int) -> Tuple[int, int]:
@@ -77,3 +77,42 @@ class Server:
             return []
 
         return self.__dataset[start:end]
+
+    def get_hyper(self, page: int = 1, page_size: int = 10) -> Dict[str, Any]:
+        """
+        Returns a list of data from a dataset and its metadata by a range of specified values.
+
+        Args:
+            page: Data items to return.
+            page_size: Number of items each page would display.
+
+        Returns:
+            Dict: List of rows of data to represent page and some metadata.
+        """
+        assert isinstance(page, int) and page > 0
+        assert isinstance(page_size, int) and page_size > 0
+
+        # Get range of dataset to return
+        start, end = index_range(page, page_size)
+
+        # Load file into cache
+        self.dataset()
+
+        # Return empty list if CSV file contains no data
+        if not self.__dataset:
+            return []
+
+        data = self.__dataset[start:end]
+        next_page =  page + 1 if (page * page_size) < len(self.__dataset) else None
+        prev_page = page - 1 if page > 1 else None
+        total_pages = len(self.__dataset)
+        result = {
+            "page_size": len(data),
+            "page": page,
+            "data": data,
+            "next_page": next_page,
+            "prev_page": prev_page,
+            "total_pages": total_pages
+        }
+
+        return result
