@@ -80,7 +80,8 @@ class Server:
 
     def get_hyper(self, page: int = 1, page_size: int = 10) -> Dict[str, Any]:
         """
-        Returns a list of data from a dataset and its metadata by a range of specified values.
+        Returns a paginated set of data from the server with some metadata
+        about data returned.
 
         Args:
             page: Data items to return.
@@ -102,17 +103,21 @@ class Server:
         if not self.__dataset:
             return []
 
+        # Get requested paginated data
         data = self.__dataset[start:end]
-        next_page =  page + 1 if (page * page_size) < len(self.__dataset) else None
+
+        # Obtain required metadata
+        dataset_size = len(self.__dataset)
+        next_page = page + 1 if (page * page_size) < dataset_size else None
         prev_page = page - 1 if page > 1 else None
-        total_pages = len(self.__dataset)
+
         result = {
             "page_size": len(data),
             "page": page,
             "data": data,
             "next_page": next_page,
             "prev_page": prev_page,
-            "total_pages": total_pages
+            "total_pages": math.ceil(dataset_size / page_size)
         }
 
         return result
