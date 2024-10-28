@@ -16,11 +16,6 @@ def index_range(page: int, page_size: int) -> tuple[int, int]:
     Return:
         (tuple): start and end indexes to return in list of items.
     """
-    if not page or not isinstance(page, int):
-        return
-    if not page_size or not isinstance(page_size, int):
-        return
-
     start_index = (page - 1) * page_size
     end_index = start_index + page_size
     return (start_index, end_index)
