@@ -52,31 +52,39 @@ class Server:
         Returns:
             (Dict): Containing data page and some metadata.
         """
-        assert isinstance(index, int) and index < len(self.__indexed_dataset)
+        indexed_dataset = self.__indexed_dataset
+
+        # Index and page size arguments validation
+        assert isinstance(index, int)
+        assert index >= 0 and index < len(indexed_dataset)
         assert isinstance(page_size, int) and page_size > 0
 
         # Load file into cache
         self.dataset()
         self.indexed_dataset()
 
-        # Get dataset within specified range
-        data = []
+        # Get data within specified range
         start = index
         end = index + page_size
+        data = []
+        indexes = []  # Store indexes of data retrieved here
         for i in range(start, end, 1):
-            if i in self.__indexed_dataset:
-                row = self.__indexed_dataset.get(i)
-                data.append(row)
+            if i in indexed_dataset:
+                row_data = indexed_dataset.get(i)
+                data.append(row_data)
+                indexes.append(i)
 
         # Compute metadata
         page_size = len(data)
-        index = 
-        next_index = end + 1
-        while not self.__indexed_dataset.get(next_index):
+        next_index = indexes[-1] + 1
+        while not indexed_dataset.get(next_index):
+            if next_index == len(indexed_dataset):
+                next_index = -1
+                break
             next_index += 1
 
         result = {
-                "index": sorted(data)[0],
+                "index": indexes[0],
                 "next_index": next_index,
                 "page_size": page_size,
                 "data": data
