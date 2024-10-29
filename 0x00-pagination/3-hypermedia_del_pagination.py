@@ -70,13 +70,12 @@ class Server:
         indexes = []  # Store indexes of data retrieved here
         for i in range(start, end, 1):
             if i in indexed_dataset:
-                row_data = indexed_dataset.get(i)
-                data.append(row_data)
+                data.append(indexed_dataset[i])
                 indexes.append(i)
 
-        # Compute metadata
-        page_size = len(data)
+        # Get start index for next page (next_index)
         next_index = indexes[-1] + 1
+        # Loop until next valid index is found
         while not indexed_dataset.get(next_index):
             if next_index == len(indexed_dataset):
                 next_index = -1
@@ -86,7 +85,7 @@ class Server:
         result = {
                 "index": indexes[0],
                 "next_index": next_index,
-                "page_size": page_size,
+                "page_size": len(data),
                 "data": data
                 }
 
