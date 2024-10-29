@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 Deletion-resilient hypermedia pagination
 """
@@ -59,8 +60,7 @@ class Server:
         assert index >= 0 and index < len(indexed_dataset)
         assert isinstance(page_size, int) and page_size > 0
 
-        # Load file into cache
-        self.dataset()
+        # Load indexed data
         self.indexed_dataset()
 
         # Get data within specified range
