@@ -10,6 +10,14 @@ from typing import List, Dict
 
 class Server:
     """Server class to paginate a database of popular baby names.
+
+    Attributes:
+        DATA_FILE: Path to file containinf fata to work with.
+    Methods:
+        dataset(): Loads dataset from file and returns loaded dataset.
+        indexed_dataset(): Indexes dataset and returns indexed dataset.
+        get_hyper_index(index, page_size): Provides deletion-resilient
+            pagination.
     """
     DATA_FILE = "Popular_Baby_Names.csv"
 
@@ -43,15 +51,19 @@ class Server:
         return self.__indexed_dataset
 
     def get_hyper_index(self, index: int = None, page_size: int = 10) -> Dict:
-        """Returns a paginated set of data from the server without missing
-        items when page changes.
+        """Provides deletion-resilient pagination.
 
         Args:
-            index (int): Current start index of returning page.
-            page_size (int): Size of the page returned.
+            index (int): Start index of page to return.
+            page_size (int): Maximum number of data rows to return.
 
         Returns:
-            (Dict): Containing data page and some metadata.
+            (dict): Requested page and some metadata
+                Keys:
+                    index (int): Index of first data row of returned page.
+                    next_index (int): Index of first data row in next page.
+                    page_size (int): Number of data rows in page returned.
+                    data (list of lists): List of data rows returned.
         """
         indexed_dataset = self.__indexed_dataset
 
@@ -60,10 +72,10 @@ class Server:
         assert index >= 0 and index < len(indexed_dataset)
         assert isinstance(page_size, int) and page_size > 0
 
-        # Load indexed data
+        # Load indexed dataset
         self.indexed_dataset()
 
-        # Get data within specified range
+        # Get data within the specified range
         start = index
         end = index + page_size
         data = []
