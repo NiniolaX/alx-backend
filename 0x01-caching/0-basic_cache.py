@@ -7,7 +7,7 @@ from base_caching import BaseCaching
 
 class BasicCache(BaseCaching):
     """
-    BasicCache
+    BasicCache class
     """
     def __init__(self):
         """ Initializes a BasicCache instance """
