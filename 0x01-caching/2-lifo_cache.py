@@ -11,7 +11,7 @@ class LIFOCache(BaseCaching):
     LIFOCache class
     """
     def __init__(self):
-        """ Initializes a FIFOCache instance """
+        """ Initializes a LIFOCache instance """
         super().__init__()
 
     def put(self, key, item):
