@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 """
-Contains a a class LRUCache that implements the LRU Cache replacement policy.
+Contains a a class MRUCache that implements the MRU Cache replacement policy.
 """
 from base_caching import BaseCaching
 
 
-class LRUCache(BaseCaching):
+class MRUCache(BaseCaching):
     """
-    LRU Cache
+    MRU Cache
     """
     def __init__(self):
-        """ Initializes the LRUCache instance """
+        """ Initializes the MRUCache instance """
         super().__init__()
 
     def put(self, key, item):
@@ -18,17 +18,16 @@ class LRUCache(BaseCaching):
         if not key or not item:
             return
 
-        # Update key to most recently used
+        # Upon cache hit, update key to most recently used
         if key in self.cache_data:
             del self.cache_data[key]
 
-        # If cache is full, delete Least Recently Used item
+        # If cache is full, delete Most Recently Used item
         if len(self.cache_data.keys()) >= BaseCaching.MAX_ITEMS:
-            lru_key = next(iter(self.cache_data))  # First item
-            self.cache_data.pop(lru_key)
-            print(f"DISCARD: {lru_key}")
+            mru_key, mru_item = self.cache_data.popitem()  # Last item
+            print(f'DISCARD: {mru_key}')
 
-        # Insert new item after deletion
+        # Insert new item into cache
         self.cache_data[key] = item
 
     def get(self, key):
