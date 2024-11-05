@@ -1,4 +1,4 @@
-#!usr/bin/python3
+#!usr/bin/env python3
 """ Flask app for i18n project """
 from flask import Flask, render_template
 
@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 
 @app.route("/")
-def home():
+def home() -> None:
     """ Returns the home page """
     return render_template("0-index.html")
 
