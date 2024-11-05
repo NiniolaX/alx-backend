@@ -1,7 +1,6 @@
 #!usr/bin/env python3
 """ Flask app for i18n project """
 from flask import Flask, render_template
-from typing import F
 
 app = Flask(__name__)
 
