@@ -1,4 +1,4 @@
-#!usr/bin/env python3
+#!/usr/bin/env python3
 """ A simple i18n enabled Flask app """
 from flask import Flask, render_template, request
 from flask_babel import Babel
@@ -12,11 +12,9 @@ class Config():
 
 
 app = Flask(__name__)
-# Load attributes in Config class into app
-app.config.from_object(Config)
+app.config.from_object(Config)  # Load attributes in Config class into app
 
-# Instantiate Babel instance
-babel = Babel(app)
+babel = Babel(app)  # Instantiate Babel instance
 
 
 @babel.localeselector
@@ -27,7 +25,8 @@ def get_locale():
 
 @app.route("/")
 def home():
-    render_template("2-index.html")
+    """ Renders the homepage """
+    return render_template("2-index.html")
 
 
 if __name__ == "__main__":
