@@ -60,4 +60,4 @@ def home():
 
 if __name__ == "__main__":
     """ Starts the application """
-    app.run(debug=True)
+    app.run()
