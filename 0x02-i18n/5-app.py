@@ -31,18 +31,18 @@ def get_user():
     user_id = request.args.get('login_as')
     if not user_id:
         return None
-    return users.get(user_id)
+    return users.get(int(user_id))
 
 
 @app.before_request
 def before_request():
-    """ Set global user object """
+    """ Sets global user object """
     g.user = get_user()
 
 
 @babel.localeselector
 def get_locale():
-    """ Get client's locale """
+    """ Gets client's locale """
     # Check if 'locale' is in query parameters
     lang = request.args.get('locale')
     if lang in app.config["LANGUAGES"]:
@@ -55,7 +55,7 @@ def get_locale():
 @app.route("/")
 def home():
     """ Renders the homepage """
-    return render_template('3-index.html')
+    return render_template('5-index.html')
 
 
 if __name__ == "__main__":
