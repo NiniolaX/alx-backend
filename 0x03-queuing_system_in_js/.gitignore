@@ -1,2 +1,4 @@
 redis-7.4.1/
+node_modules/
 redis-7.4.1.tar.gz
+package-lock.json
